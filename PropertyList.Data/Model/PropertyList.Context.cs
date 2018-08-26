@@ -25,5 +25,8 @@ namespace PropertyList.Data.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<utProperty> utProperties { get; set; }
+        public virtual DbSet<utStaff> utStaffs { get; set; }
+        public virtual DbSet<utStaffRole> utStaffRoles { get; set; }
     }
 }

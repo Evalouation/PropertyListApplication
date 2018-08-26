@@ -65,6 +65,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyList.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\utProperty.cs">
+      <DependentUpon>PropertyList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\utStaff.cs">
+      <DependentUpon>PropertyList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\utStaffRole.cs">
+      <DependentUpon>PropertyList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
