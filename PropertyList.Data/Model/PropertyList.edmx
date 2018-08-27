@@ -51,6 +51,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="usp_InsertSingleStaff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="firstName" Type="nvarchar" Mode="In" />
+          <Parameter Name="lastName" Type="nvarchar" Mode="In" />
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+          <Parameter Name="role" Type="int" Mode="In" />
+          <Parameter Name="createdDate" Type="datetime" Mode="In" />
+          <Parameter Name="updatedDate" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="usp_SelectAllProperties" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="PropertyListingDataModelStoreContainer">
           <EntitySet Name="utProperty" EntityType="Self.utProperty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="utStaff" EntityType="Self.utStaff" Schema="dbo" store:Type="Tables" />
@@ -72,6 +82,16 @@
             <End Role="utStaffRole" EntitySet="utStaffRoles" />
             <End Role="utStaff" EntitySet="utStaffs" />
           </AssociationSet>
+          <FunctionImport Name="usp_SelectAllProperties" ReturnType="Collection(PropertyListingDataModel.usp_SelectAllProperties_Result)" />
+          <FunctionImport Name="usp_InsertSingleStaff">
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="role" Mode="In" Type="Int32" />
+            <Parameter Name="createdDate" Mode="In" Type="DateTime" />
+            <Parameter Name="updatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="utProperty">
           <Key>
@@ -121,6 +141,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="usp_SelectAllProperties_Result">
+          <Property Type="Int32" Name="PropertyID" Nullable="false" />
+          <Property Type="String" Name="Location" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="Bedroom" Nullable="true" />
+          <Property Type="Int32" Name="Bathroom" Nullable="true" />
+          <Property Type="String" Name="ConfidentialNotes" Nullable="true" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="false" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -164,6 +195,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_SelectAllProperties" FunctionName="PropertyListingDataModel.Store.usp_SelectAllProperties">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PropertyListingDataModel.usp_SelectAllProperties_Result">
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Bedroom" ColumnName="Bedroom" />
+                <ScalarProperty Name="Bathroom" ColumnName="Bathroom" />
+                <ScalarProperty Name="ConfidentialNotes" ColumnName="ConfidentialNotes" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_InsertSingleStaff" FunctionName="PropertyListingDataModel.Store.usp_InsertSingleStaff" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

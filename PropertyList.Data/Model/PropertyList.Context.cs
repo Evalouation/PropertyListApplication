@@ -12,6 +12,8 @@ namespace PropertyList.Data.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class PropertyListing_DevEntities : DbContext
     {
@@ -28,5 +30,43 @@ namespace PropertyList.Data.Model
         public virtual DbSet<utProperty> utProperties { get; set; }
         public virtual DbSet<utStaff> utStaffs { get; set; }
         public virtual DbSet<utStaffRole> utStaffRoles { get; set; }
+    
+        public virtual ObjectResult<usp_SelectAllProperties_Result> usp_SelectAllProperties()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_SelectAllProperties_Result>("usp_SelectAllProperties");
+        }
+    
+        public virtual int usp_InsertSingleStaff(string firstName, string lastName, string email, string password, Nullable<int> role, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> updatedDate)
+        {
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("firstName", firstName) :
+                new ObjectParameter("firstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("lastName", lastName) :
+                new ObjectParameter("lastName", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            var roleParameter = role.HasValue ?
+                new ObjectParameter("role", role) :
+                new ObjectParameter("role", typeof(int));
+    
+            var createdDateParameter = createdDate.HasValue ?
+                new ObjectParameter("createdDate", createdDate) :
+                new ObjectParameter("createdDate", typeof(System.DateTime));
+    
+            var updatedDateParameter = updatedDate.HasValue ?
+                new ObjectParameter("updatedDate", updatedDate) :
+                new ObjectParameter("updatedDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertSingleStaff", firstNameParameter, lastNameParameter, emailParameter, passwordParameter, roleParameter, createdDateParameter, updatedDateParameter);
+        }
     }
 }
