@@ -51,6 +51,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="usp_CheckStaffAccount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_GetPropertyById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="propertyId" Type="int" Mode="In" />
+        </Function>
         <Function Name="usp_InsertSingleStaff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="firstName" Type="nvarchar" Mode="In" />
           <Parameter Name="lastName" Type="nvarchar" Mode="In" />
@@ -91,6 +98,17 @@
             <Parameter Name="role" Mode="In" Type="Int32" />
             <Parameter Name="createdDate" Mode="In" Type="DateTime" />
             <Parameter Name="updatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="usp_ValidateStaffLogin">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_CheckStaffAccount" ReturnType="Collection(PropertyListingDataModel.usp_CheckStaffAccount_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetPropertyById" ReturnType="Collection(PropertyListingDataModel.usp_GetPropertyById_Result)">
+            <Parameter Name="propertyId" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="utProperty">
@@ -142,6 +160,22 @@
           </ReferentialConstraint>
         </Association>
         <ComplexType Name="usp_SelectAllProperties_Result">
+          <Property Type="Int32" Name="PropertyID" Nullable="false" />
+          <Property Type="String" Name="Location" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="Bedroom" Nullable="true" />
+          <Property Type="Int32" Name="Bathroom" Nullable="true" />
+          <Property Type="String" Name="ConfidentialNotes" Nullable="true" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="usp_CheckStaffAccount_Result">
+          <Property Type="Int32" Name="StaffID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_GetPropertyById_Result">
           <Property Type="Int32" Name="PropertyID" Nullable="false" />
           <Property Type="String" Name="Location" Nullable="false" MaxLength="255" />
           <Property Type="Int32" Name="Bedroom" Nullable="true" />
@@ -211,6 +245,30 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_InsertSingleStaff" FunctionName="PropertyListingDataModel.Store.usp_InsertSingleStaff" />
+          <FunctionImportMapping FunctionImportName="usp_CheckStaffAccount" FunctionName="PropertyListingDataModel.Store.usp_CheckStaffAccount">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PropertyListingDataModel.usp_CheckStaffAccount_Result">
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_GetPropertyById" FunctionName="PropertyListingDataModel.Store.usp_GetPropertyById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PropertyListingDataModel.usp_GetPropertyById_Result">
+                <ScalarProperty Name="PropertyID" ColumnName="PropertyID" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Bedroom" ColumnName="Bedroom" />
+                <ScalarProperty Name="Bathroom" ColumnName="Bathroom" />
+                <ScalarProperty Name="ConfidentialNotes" ColumnName="ConfidentialNotes" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

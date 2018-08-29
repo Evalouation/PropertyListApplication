@@ -64,6 +64,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyList.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\usp_CheckStaffAccount_Result.cs">
+      <DependentUpon>PropertyList.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\usp_GetPropertyById_Result.cs">
+      <DependentUpon>PropertyList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\usp_SelectAllProperties_Result.cs">
       <DependentUpon>PropertyList.tt</DependentUpon>
     </Compile>

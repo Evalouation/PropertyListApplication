@@ -68,5 +68,41 @@ namespace PropertyList.Data.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertSingleStaff", firstNameParameter, lastNameParameter, emailParameter, passwordParameter, roleParameter, createdDateParameter, updatedDateParameter);
         }
+    
+        public virtual int usp_ValidateStaffLogin(string email, string password)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_ValidateStaffLogin", emailParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<usp_CheckStaffAccount_Result> usp_CheckStaffAccount(string email, string password)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_CheckStaffAccount_Result>("usp_CheckStaffAccount", emailParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<usp_GetPropertyById_Result> usp_GetPropertyById(Nullable<int> propertyId)
+        {
+            var propertyIdParameter = propertyId.HasValue ?
+                new ObjectParameter("propertyId", propertyId) :
+                new ObjectParameter("propertyId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetPropertyById_Result>("usp_GetPropertyById", propertyIdParameter);
+        }
+
     }
 }
