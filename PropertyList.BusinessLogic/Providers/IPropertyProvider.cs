@@ -7,5 +7,7 @@ namespace PropertyList.BusinessLogic.Providers
     {
         IEnumerable<PropertyDtoModel> GetAll();
         PropertyDtoModel GetById(int id);
+        PropertyDtoModel CreateProperty(PropertyDtoModel model);
+        PropertyDtoModel UpdateProperty(PropertyDtoModel model);
     }
 }

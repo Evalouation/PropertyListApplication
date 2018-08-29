@@ -27,5 +27,15 @@ namespace PropertyList.ControllerLogic
         {
             return _PropertyProvider.GetById(id);
         }
+
+        public PropertyDtoModel AddProperty(PropertyDtoModel property)
+        {
+            return _PropertyProvider.CreateProperty(property);
+        }
+
+        public PropertyDtoModel UpdateProperty(PropertyDtoModel property)
+        {
+            return _PropertyProvider.UpdateProperty(property);
+        }
     }
 }

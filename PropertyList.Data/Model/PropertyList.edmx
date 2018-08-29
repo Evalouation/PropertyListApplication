@@ -58,6 +58,16 @@
         <Function Name="usp_GetPropertyById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyId" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_InsertSingleProperty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="location" Type="nvarchar" Mode="In" />
+          <Parameter Name="bedroom" Type="int" Mode="In" />
+          <Parameter Name="bathroom" Type="int" Mode="In" />
+          <Parameter Name="confidentialNotes" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="createdDate" Type="datetime" Mode="In" />
+          <Parameter Name="updatedDate" Type="datetime" Mode="In" />
+        </Function>
         <Function Name="usp_InsertSingleStaff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="firstName" Type="nvarchar" Mode="In" />
           <Parameter Name="lastName" Type="nvarchar" Mode="In" />
@@ -68,6 +78,16 @@
           <Parameter Name="updatedDate" Type="datetime" Mode="In" />
         </Function>
         <Function Name="usp_SelectAllProperties" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_UpdateProperty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="propertyID" Type="int" Mode="In" />
+          <Parameter Name="location" Type="nvarchar" Mode="In" />
+          <Parameter Name="bedroom" Type="int" Mode="In" />
+          <Parameter Name="bathroom" Type="int" Mode="In" />
+          <Parameter Name="confidentialNotes" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="In" />
+          <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+          <Parameter Name="updatedDate" Type="datetime" Mode="In" />
+        </Function>
         <EntityContainer Name="PropertyListingDataModelStoreContainer">
           <EntitySet Name="utProperty" EntityType="Self.utProperty" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="utStaff" EntityType="Self.utStaff" Schema="dbo" store:Type="Tables" />
@@ -108,7 +128,27 @@
             <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="usp_GetPropertyById" ReturnType="Collection(PropertyListingDataModel.usp_GetPropertyById_Result)">
-            <Parameter Name="propertyId" Mode="In" Type="Int32" />
+          <Parameter Name="propertyId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_InsertSingleProperty">
+            <Parameter Name="location" Mode="In" Type="String" />
+            <Parameter Name="bedroom" Mode="In" Type="Int32" />
+            <Parameter Name="bathroom" Mode="In" Type="Int32" />
+            <Parameter Name="confidentialNotes" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="Int32" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="createdDate" Mode="In" Type="DateTime" />
+            <Parameter Name="updatedDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="usp_UpdateProperty">
+            <Parameter Name="propertyID" Mode="In" Type="Int32" />
+            <Parameter Name="location" Mode="In" Type="String" />
+            <Parameter Name="bedroom" Mode="In" Type="Int32" />
+            <Parameter Name="bathroom" Mode="In" Type="Int32" />
+            <Parameter Name="confidentialNotes" Mode="In" Type="String" />
+            <Parameter Name="status" Mode="In" Type="Int32" />
+            <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+            <Parameter Name="updatedDate" Mode="In" Type="DateTime" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="utProperty">
@@ -269,6 +309,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_InsertSingleProperty" FunctionName="PropertyListingDataModel.Store.usp_InsertSingleProperty" />
+          <FunctionImportMapping FunctionImportName="usp_UpdateProperty" FunctionName="PropertyListingDataModel.Store.usp_UpdateProperty" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

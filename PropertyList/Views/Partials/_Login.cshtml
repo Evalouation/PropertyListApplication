@@ -1,0 +1,12 @@
+﻿@{
+    bool isLogin = Session["Username"] == null ? false : true;
+}
+@if (isLogin)
+{
+    <li><a>Welcome, <strong>@Session["Username"].ToString()</strong></a> </li>
+    <li>@Html.ActionLink("Log out", "Logout", "Account")</li>
+}
+else
+{
+    <li>@Html.ActionLink("Log in", "Login", "Account")</li>
+}

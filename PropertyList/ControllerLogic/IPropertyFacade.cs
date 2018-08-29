@@ -7,5 +7,7 @@ namespace PropertyList.ControllerLogic
     {
         IEnumerable<PropertyDtoModel> GetAllProperties();
         PropertyDtoModel GetById(int id);
+        PropertyDtoModel AddProperty(PropertyDtoModel property);
+        PropertyDtoModel UpdateProperty(PropertyDtoModel property);
     }
 }

@@ -103,6 +103,79 @@ namespace PropertyList.Data.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetPropertyById_Result>("usp_GetPropertyById", propertyIdParameter);
         }
-
+    
+        public virtual int usp_InsertSingleProperty(string location, Nullable<int> bedroom, Nullable<int> bathroom, string confidentialNotes, Nullable<int> status, Nullable<bool> isDeleted, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> updatedDate)
+        {
+            var locationParameter = location != null ?
+                new ObjectParameter("location", location) :
+                new ObjectParameter("location", typeof(string));
+    
+            var bedroomParameter = bedroom.HasValue ?
+                new ObjectParameter("bedroom", bedroom) :
+                new ObjectParameter("bedroom", typeof(int));
+    
+            var bathroomParameter = bathroom.HasValue ?
+                new ObjectParameter("bathroom", bathroom) :
+                new ObjectParameter("bathroom", typeof(int));
+    
+            var confidentialNotesParameter = confidentialNotes != null ?
+                new ObjectParameter("confidentialNotes", confidentialNotes) :
+                new ObjectParameter("confidentialNotes", typeof(string));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("status", status) :
+                new ObjectParameter("status", typeof(int));
+    
+            var isDeletedParameter = isDeleted.HasValue ?
+                new ObjectParameter("IsDeleted", isDeleted) :
+                new ObjectParameter("IsDeleted", typeof(bool));
+    
+            var createdDateParameter = createdDate.HasValue ?
+                new ObjectParameter("createdDate", createdDate) :
+                new ObjectParameter("createdDate", typeof(System.DateTime));
+    
+            var updatedDateParameter = updatedDate.HasValue ?
+                new ObjectParameter("updatedDate", updatedDate) :
+                new ObjectParameter("updatedDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_InsertSingleProperty", locationParameter, bedroomParameter, bathroomParameter, confidentialNotesParameter, statusParameter, isDeletedParameter, createdDateParameter, updatedDateParameter);
+        }
+    
+        public virtual int usp_UpdateProperty(Nullable<int> propertyID, string location, Nullable<int> bedroom, Nullable<int> bathroom, string confidentialNotes, Nullable<int> status, Nullable<bool> isDeleted, Nullable<System.DateTime> updatedDate)
+        {
+            var propertyIDParameter = propertyID.HasValue ?
+                new ObjectParameter("propertyID", propertyID) :
+                new ObjectParameter("propertyID", typeof(int));
+    
+            var locationParameter = location != null ?
+                new ObjectParameter("location", location) :
+                new ObjectParameter("location", typeof(string));
+    
+            var bedroomParameter = bedroom.HasValue ?
+                new ObjectParameter("bedroom", bedroom) :
+                new ObjectParameter("bedroom", typeof(int));
+    
+            var bathroomParameter = bathroom.HasValue ?
+                new ObjectParameter("bathroom", bathroom) :
+                new ObjectParameter("bathroom", typeof(int));
+    
+            var confidentialNotesParameter = confidentialNotes != null ?
+                new ObjectParameter("confidentialNotes", confidentialNotes) :
+                new ObjectParameter("confidentialNotes", typeof(string));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("status", status) :
+                new ObjectParameter("status", typeof(int));
+    
+            var isDeletedParameter = isDeleted.HasValue ?
+                new ObjectParameter("IsDeleted", isDeleted) :
+                new ObjectParameter("IsDeleted", typeof(bool));
+    
+            var updatedDateParameter = updatedDate.HasValue ?
+                new ObjectParameter("updatedDate", updatedDate) :
+                new ObjectParameter("updatedDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_UpdateProperty", propertyIDParameter, locationParameter, bedroomParameter, bathroomParameter, confidentialNotesParameter, statusParameter, isDeletedParameter, updatedDateParameter);
+        }
     }
 }
