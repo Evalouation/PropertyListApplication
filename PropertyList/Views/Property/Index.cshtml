@@ -1,12 +1,10 @@
 ﻿@model IEnumerable<PropertyList.Models.PropertyViewModel>
 @{
     ViewBag.Title = "Home";
-    bool isLogin = Session["Username"] == null ? false : true; //todo
 }
-<h2>Property List</h2>
-@*<p>@(Request.IsAuthenticated ? "Login Success" : "Fail, try again")</p>*@
+<h2>Property List HELLO</h2>
 
-@if (isLogin)
+@*@if (isLogin)
 {
     @Html.ActionLink("Create new property", "Create", "Property", null, new { @class = "btn btn-info" })
 }
@@ -73,5 +71,5 @@
 
         </table>
     </div>
-</div>
+</div>*@
 

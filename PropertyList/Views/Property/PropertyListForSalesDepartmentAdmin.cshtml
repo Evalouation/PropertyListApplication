@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Property";
 }
-<h2>Property List (SDA</h2>
+<h2>Manage Property List</h2>
 
 <div class="form-horizontal">
     <br />
@@ -60,10 +60,10 @@
 
                 @if (item.Status == PropertyStatus.Withdrawn)
                 {
-                    <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.PropertyID }, new { @class = "btn btn-danger" })
-                        <input type="button" value="Delete *" onclick="DeleteProperty(@item.PropertyID);" />
-                    </td>
+                <td>
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.PropertyID }, new { @class = "btn btn-danger" })*@
+                    <input type="button" value="Delete *" class="btn btn-danger" onclick="DeleteProperty(@item.PropertyID);" />
+                </td>
                 }
             </tr>
             }
@@ -75,7 +75,7 @@
 <script>
     function DeleteProperty(id) {
         var apiurl = '/api/PropertyApi/Delete/' + id;
-
+         
         $.ajax({
             url: apiurl,
             type: 'DELETE',
@@ -83,22 +83,13 @@
             success: function (data, textStatus, xhr) {
                 console.log('Delete property succesfully');
                 console.log(data);
+
+                location.reload(true);
             },
             error: function (xhr, textStatus, errorThrown) {
                 console.log('Error in Operation');
             }
-
-
         });
-
-        //success: function (result) {
-        //    $('#divCandidates').empty();
-        //    $('<li>' + result.Name + ', ' + result.Id + ', ' + result.Age + ', ' + result.Email + '</li>').appendTo('#divCandidates');
-        //},
-        //error: function (jqXHR, exception) {
-        //    $('#divCandidates').empty();
-        //    alert('Nothing');
-        //}
     }
 </script>
 
