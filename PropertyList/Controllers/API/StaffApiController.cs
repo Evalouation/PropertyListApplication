@@ -1,4 +1,8 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web;
+using System.Web.Http;
+using System.Web.Security;
+using Newtonsoft.Json;
 using PropertyList.BusinessLogic.Model;
 using PropertyList.ControllerLogic;
 using PropertyList.Models;
@@ -45,8 +49,12 @@ namespace PropertyList.Controllers.API
         public IHttpActionResult ValidateAccount(LoginDtoModel account)
         {
             UserDtoModel user = _staffFacade.ValidateAccount(account);
+
             if (user != null)
+            { 
+                
                 return Ok(user);
+            }
             else
                 return Unauthorized();
         }

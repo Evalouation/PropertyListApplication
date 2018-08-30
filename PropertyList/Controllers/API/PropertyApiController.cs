@@ -1,4 +1,5 @@
-﻿using PropertyList.BusinessLogic.Model;
+﻿using PropertyList.Attributes;
+using PropertyList.BusinessLogic.Model;
 using PropertyList.ControllerLogic;
 using PropertyList.Data.Model;
 using System;
@@ -10,6 +11,7 @@ using System.Web.Http;
 
 namespace PropertyList.Controllers.API
 {
+    [AuthorizeRoles]
     public class PropertyApiController : ApiController
     {
         private readonly IPropertyFacade _propertyFacade;
@@ -41,6 +43,7 @@ namespace PropertyList.Controllers.API
         }
 
         // POST: api/PropertyApi/Post
+        [AuthorizeRoles("IsSales")]
         [HttpPost]
         public IHttpActionResult Post(PropertyDtoModel property)
         {
@@ -49,6 +52,7 @@ namespace PropertyList.Controllers.API
         }
 
         // PUT: api/PropertyApi/Put
+        [AuthorizeRoles("IsSales", "IsSalesAdmin", "IsSalesDepartmentAdmin")]
         [HttpPut]
         public IHttpActionResult Put(PropertyDtoModel property)
         {
@@ -57,8 +61,12 @@ namespace PropertyList.Controllers.API
         }
 
         // DELETE: api/PropertyApi/5
-        public void Delete(int id)
+        [AuthorizeRoles("IsSalesDepartmentAdmin")]
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
         {
+            _propertyFacade.DeleteProperty(id);
+            return Ok();
         }
     }
 }

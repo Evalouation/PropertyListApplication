@@ -2,8 +2,9 @@
 {
     public enum StaffType
     {
-        IsSales = 1,
-        IsSalesAdmin = 2,
-        IsSalesDepartmentAdmin = 3
+        Admin = 1,
+        IsSales = 2,
+        IsSalesAdmin = 3,
+        IsSalesDepartmentAdmin = 4
     }
 }

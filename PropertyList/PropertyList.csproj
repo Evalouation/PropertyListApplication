@@ -177,6 +177,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\AuthorizeRolesAttribute.cs" />
     <Compile Include="ControllerLogic\IPropertyFacade.cs" />
     <Compile Include="ControllerLogic\IStaffFacade.cs" />
     <Compile Include="ControllerLogic\PropertyFacade.cs" />
@@ -191,6 +192,8 @@
     </Compile>
     <Compile Include="Helper\ApplicationUriResolver.cs" />
     <Compile Include="Helper\IApplicationUriResolver.cs" />
+    <Compile Include="Helper\IUserAccountResolver.cs" />
+    <Compile Include="Helper\UserAccountResolver.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PropertyViewModel.cs" />
     <Compile Include="Models\StaffViewModel.cs" />
@@ -235,13 +238,18 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\CreateStaff.cshtml" />
     <Content Include="Views\Partials\_Login.cshtml" />
-    <Content Include="Views\Home\Edit.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Property\Create.cshtml" />
     <Content Include="Views\Property\Index.cshtml" />
     <Content Include="Views\Property\Edit.cshtml" />
+    <Content Include="Views\Shared\UnAuthorized.cshtml" />
+    <Content Include="Views\Account\CreateStaff.cshtml" />
+    <Content Include="Views\Property\PropertyListReadOnly.cshtml" />
+    <Content Include="Views\Property\PropertyListForSales.cshtml" />
+    <Content Include="Views\Property\PropertyListForSalesAdmin.cshtml" />
+    <Content Include="Views\Property\PropertyListForSalesDepartmentAdmin.cshtml" />
+    <Content Include="Views\Property\EditSalesAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -50,14 +50,17 @@
     <Compile Include="Constant\ConfigKeys.cs" />
     <Compile Include="Constant\PropertyStatus.cs" />
     <Compile Include="Constant\StaffType.cs" />
+    <Compile Include="Model\RoleDtoModel.cs" />
     <Compile Include="Model\LoginDtoModel.cs" />
     <Compile Include="Model\PropertyDtoModel.cs" />
     <Compile Include="Model\StaffDtoModel.cs" />
     <Compile Include="Model\UserDtoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\IPropertyProvider.cs" />
+    <Compile Include="Providers\IRoleProvider.cs" />
     <Compile Include="Providers\IStaffProvider.cs" />
     <Compile Include="Providers\PropertyProvider.cs" />
+    <Compile Include="Providers\StaffRoleProvider.cs" />
     <Compile Include="Providers\StaffProvider.cs" />
   </ItemGroup>
   <ItemGroup>

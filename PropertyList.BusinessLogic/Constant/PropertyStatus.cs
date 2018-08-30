@@ -3,7 +3,7 @@
     public enum PropertyStatus
     {
         Active = 1,
-        Withdraw = 2,
+        Withdrawn = 2,
         Sold = 3,
         Rented = 4
     }

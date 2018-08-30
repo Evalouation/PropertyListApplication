@@ -2,17 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using PropertyList.BusinessLogic.Model;
-using PropertyList.Data.Model;
+using PropertyList.Data.UnitOfWork;
 
 namespace PropertyList.BusinessLogic.Providers
 {
     public class StaffProvider : IStaffProvider
     {
-        private PropertyListing_DevEntities db = new PropertyListing_DevEntities(); //To refactor
+        private readonly IUnitOfWork _uow;
+
+        #region injection
+        public StaffProvider() : this(new UnitOfWork())
+        {
+        }
+
+        public StaffProvider(IUnitOfWork unitOfWork)
+        {
+            _uow = unitOfWork;
+        }
+        #endregion
 
         public IEnumerable<StaffDtoModel> GetAll()
         {
-            List<StaffDtoModel> staffs = db.utStaffs.Select(x => new StaffDtoModel() {
+            List<StaffDtoModel> staffs = _uow.GetDB().utStaffs.Select(x => new StaffDtoModel() {
                 FirstName = x.FirstName,
                 LastName = x.LastName,
                 Email = x.Email,
@@ -26,7 +37,7 @@ namespace PropertyList.BusinessLogic.Providers
         public StaffDtoModel CreateStaff(StaffDtoModel model)
         {
             //todo
-            int test = db.usp_InsertSingleStaff(model.FirstName, model.LastName, model.Email, model.Password,
+            int test = _uow.GetDB().usp_InsertSingleStaff(model.FirstName, model.LastName, model.Email, model.Password,
                 model.Role, DateTime.Now.ToLocalTime(), DateTime.Now.ToLocalTime());
             return model;
         }
@@ -34,7 +45,7 @@ namespace PropertyList.BusinessLogic.Providers
         public UserDtoModel ValidateStaffAccount(LoginDtoModel account)
         {
             UserDtoModel result = null;
-            var user = db.usp_CheckStaffAccount(account.Email, account.Password).FirstOrDefault();
+            var user = _uow.GetDB().usp_CheckStaffAccount(account.Email, account.Password).FirstOrDefault();
             if (user != null)
             {
                 result = new UserDtoModel()

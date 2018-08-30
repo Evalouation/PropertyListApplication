@@ -11,7 +11,7 @@ namespace PropertyList.Data.Model
 {
     using System;
     
-    public partial class usp_SelectAllProperties_Result
+    public partial class usp_GetAllProperties_Result
     {
         public int PropertyID { get; set; }
         public string Location { get; set; }

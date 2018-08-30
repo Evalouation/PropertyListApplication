@@ -22,9 +22,15 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Create Staff", "CreateStaff", "Home")</li>
+                    <li>@Html.ActionLink("Manage Property", "Index", "Property")</li>
+                    <li>@Html.ActionLink("Create Staff", "CreateStaff", "Account")</li>
                     @Html.Partial("~/Views/Partials/_Login.cshtml")
                     @*<li>@Html.ActionLink("Log in", "Login", "Home")</li>*@
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li>
+
+                    </li>
                 </ul>
             </div>
         </div>

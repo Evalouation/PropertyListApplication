@@ -1,18 +1,29 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using PropertyList.BusinessLogic.Model;
-using PropertyList.Data.Model;
-using System;
+using PropertyList.Data.UnitOfWork;
 
 namespace PropertyList.BusinessLogic.Providers
 {
     public class PropertyProvider : IPropertyProvider
     {
-        private PropertyListing_DevEntities db = new PropertyListing_DevEntities(); //To refactor
+        private readonly IUnitOfWork _uow;
+
+        #region injection
+        public PropertyProvider() : this(new UnitOfWork())
+        {
+        }
+
+        public PropertyProvider(IUnitOfWork unitOfWork)
+        {
+            _uow = unitOfWork;
+        }
+        #endregion
 
         public IEnumerable<PropertyDtoModel> GetAll()
         {
-            List<PropertyDtoModel> result  = db.usp_SelectAllProperties().Select(p => new PropertyDtoModel()
+            List<PropertyDtoModel> result  = _uow.GetDB().usp_GetAllProperties().Select(p => new PropertyDtoModel()
             {
                 PropertyID = p.PropertyID,
                 Location = p.Location,
@@ -27,7 +38,7 @@ namespace PropertyList.BusinessLogic.Providers
 
         public PropertyDtoModel GetById(int id)
         {
-            var p = db.usp_GetPropertyById(id).FirstOrDefault();
+            var p = _uow.GetDB().usp_GetPropertyById(id).FirstOrDefault();
             return  p != null ? new PropertyDtoModel {
                 PropertyID = id,
                 Location = p.Location,
@@ -41,17 +52,25 @@ namespace PropertyList.BusinessLogic.Providers
 
         public PropertyDtoModel CreateProperty(PropertyDtoModel model)
         {
-            db.usp_InsertSingleProperty(model.Location, model.Bedroom, model.Bathroom, model.ConfidentialNotes,
+            _uow.GetDB().usp_InsertSingleProperty(model.Location, model.Bedroom, model.Bathroom, model.ConfidentialNotes,
                 model.Status, false, DateTime.Now.ToLocalTime(), DateTime.Now.ToLocalTime());
             return model;
         }
 
         public PropertyDtoModel UpdateProperty(PropertyDtoModel model)
         {
-            db.usp_UpdateProperty(model.PropertyID, model.Location, model.Bedroom, model.Bathroom, model.ConfidentialNotes,
+            _uow.GetDB().usp_UpdateProperty(model.PropertyID, model.Location, model.Bedroom, model.Bathroom, model.ConfidentialNotes,
                 model.Status, false, DateTime.Now.ToLocalTime());
             return model;
         }
 
+        public bool DeleteProperty(int id)
+        {
+            var p = _uow.GetDB().usp_GetPropertyById(id).FirstOrDefault();
+            if (p == null)
+                return false;
+            _uow.GetDB().usp_DeleteProperty(id);
+            return true;
+        }
     }
 }

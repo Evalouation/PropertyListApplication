@@ -6,13 +6,26 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using PropertyList.Attributes;
+using PropertyList.Helper;
 using PropertyList.Models;
 
 namespace PropertyList.Controllers
 {
     public class HomeController : Controller
     {
-        string baseurl = "http://propertylist.localhost/";
+        private readonly IApplicationUriResolver _applicationUriResolver;
+
+        #region injection
+        public HomeController() : this(new ApplicationUriResolver())
+        {
+        }
+
+        public HomeController(IApplicationUriResolver applicationUriResolver)
+        {
+            _applicationUriResolver = applicationUriResolver;
+        }
+        #endregion
 
         public async Task<ActionResult> Index()
         {
@@ -20,7 +33,7 @@ namespace PropertyList.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(baseurl);
+                client.BaseAddress = new Uri(_applicationUriResolver.GetBaseUrl());
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -34,41 +47,6 @@ namespace PropertyList.Controllers
                 return View(result);
             }
         }
-
-        public ActionResult CreateStaff()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateStaff(StaffViewModel staff)
-        {
-            if (ModelState.IsValid)
-            {
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(baseurl);
-                    client.DefaultRequestHeaders.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage response = await client.PostAsJsonAsync("api/StaffApi/Post", staff);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var propertyResponse = response.Content.ReadAsStringAsync().Result;
-                        //JsonConvert.DeserializeObject<StaffViewModel>(propertyResponse);
-                    }
-
-                    return RedirectToAction("Index");
-                }
-            }
-            return View();
-        }
-
-        
-        
-
 
         public ActionResult About()
         {

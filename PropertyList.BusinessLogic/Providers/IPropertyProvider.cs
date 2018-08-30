@@ -9,5 +9,6 @@ namespace PropertyList.BusinessLogic.Providers
         PropertyDtoModel GetById(int id);
         PropertyDtoModel CreateProperty(PropertyDtoModel model);
         PropertyDtoModel UpdateProperty(PropertyDtoModel model);
+        bool DeleteProperty(int id);
     }
 }

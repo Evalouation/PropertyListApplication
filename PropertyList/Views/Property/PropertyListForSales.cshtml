@@ -1,15 +1,10 @@
 ﻿@model IEnumerable<PropertyList.Models.PropertyViewModel>
 @{
-    ViewBag.Title = "Home";
-    bool isLogin = Session["Username"] == null ? false : true; //todo
+    ViewBag.Title = "Property";
 }
-<h2>Property List</h2>
-@*<p>@(Request.IsAuthenticated ? "Login Success" : "Fail, try again")</p>*@
+<h2>Property List (sales</h2>
 
-@if (isLogin)
-{
-    @Html.ActionLink("Create new property", "Create", "Property", null, new { @class = "btn btn-info" })
-}
+@Html.ActionLink("Create new property", "Create", "Property", null, new { @class = "btn btn-info" })
 
 <div class="form-horizontal">
     <br />
@@ -18,7 +13,7 @@
         <table class="table table-responsive" style="width:600px">
             <tr>
                 <th>
-                    Property ID
+                    @Html.DisplayNameFor(model => model.PropertyID)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Location)
@@ -29,13 +24,10 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Bathroom)
                 </th>
-                @if (isLogin)
-                {
-                    <th>
-                        Status
-                    </th>
-                }
-
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>
             </tr>
 
             @foreach (var item in Model)
@@ -53,25 +45,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Bathroom)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
 
-                    @if (isLogin)
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Status)
-                        </td>
-
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.PropertyID }, new { @class = "btn btn-success" })      
-                        </td>
-                        
-                        <td> 
-                            @Html.ActionLink("Delete", "Edit", new { id = item.PropertyID }, new { @class = "btn btn-danger" })
-                        </td>
-                    }
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.PropertyID }, new { @class = "btn btn-success" })
+                    </td>                
                 </tr>
             }
 
         </table>
     </div>
 </div>
+
 

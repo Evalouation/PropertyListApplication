@@ -8,22 +8,28 @@ using PropertyList.Models;
 using PropertyList.Helper;
 using System.Collections.Generic;
 using System.Net;
+using PropertyList.Attributes;
+using PropertyList.BusinessLogic.Constant;
 
 namespace PropertyList.Controllers
 {
+
     public class PropertyController : Controller
     {
         private readonly IApplicationUriResolver _applicationUriResolver;
+        private readonly IUserAccountResolver _userAccountResolver;
 
-        public PropertyController() : this(new ApplicationUriResolver())
+        #region injection
+        public PropertyController() : this(new ApplicationUriResolver(), new UserAccountResolver())
         {
         }
 
-        public PropertyController(IApplicationUriResolver applicationUriResolver)
+        public PropertyController(IApplicationUriResolver applicationUriResolver, IUserAccountResolver userAccountResolver)
         {
             _applicationUriResolver = applicationUriResolver;
+            _userAccountResolver = userAccountResolver;
         }
-
+        #endregion
 
         // GET: Property
         public async Task<ActionResult> Index()
@@ -43,17 +49,21 @@ namespace PropertyList.Controllers
                     var propertyResponse = response.Content.ReadAsStringAsync().Result;
                     result = JsonConvert.DeserializeObject<List<PropertyViewModel>>(propertyResponse);
                 }
-                return View(result);
             }
+
+            return RenderPropertyListView(result);
         }
 
         // GET: Property/Create
+        [AuthorizeRoles("IsSales")]
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: Property/Create
+        [AuthorizeRoles("IsSales")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(PropertyViewModel model)
@@ -81,6 +91,8 @@ namespace PropertyList.Controllers
         }
 
         //GET: Property/Edit/5
+        [AuthorizeRoles("IsSales", "IsSalesAdmin", "IsSalesDepartmentAdmin")]
+        [HttpGet]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -102,11 +114,12 @@ namespace PropertyList.Controllers
                     var propertyResponse = response.Content.ReadAsStringAsync().Result;
                     result = JsonConvert.DeserializeObject<PropertyViewModel>(propertyResponse);
                 }
-                return View(result);
+                return RenderPropertyEditView(result);
             }
         }
 
         //POST: Property/Edit/5
+        [AuthorizeRoles("IsSales", "IsSalesAdmin", "IsSalesDepartmentAdmin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(PropertyViewModel model)
@@ -131,6 +144,58 @@ namespace PropertyList.Controllers
                 }
             }
             return View();
+        }
+
+        // DELETE: Property/Delete/5
+        [HttpPost]
+        [AuthorizeRoles("IsSalesDepartmentAdmin")]
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            PropertyViewModel result = new PropertyViewModel();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(_applicationUriResolver.GetBaseUrl());
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                HttpResponseMessage response = await client.DeleteAsync("api/PropertyApi/Delete/" + id.Value);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var propertyResponse = response.Content.ReadAsStringAsync().Result;
+                    result = JsonConvert.DeserializeObject<PropertyViewModel>(propertyResponse);
+                }
+                return RenderPropertyEditView(result);
+            }
+        }
+
+        private ViewResult RenderPropertyListView(IEnumerable<PropertyViewModel> model)
+        {
+            int role = _userAccountResolver.GetCurrentUserRole();
+  
+            if (role == (int)StaffType.IsSales)
+                return View("PropertyListForSales", model);
+            else if (role == (int)StaffType.IsSalesAdmin)
+                return View("PropertyListForSalesAdmin", model);
+            else if (role == (int)StaffType.IsSalesDepartmentAdmin)
+                return View("PropertyListForSalesDepartmentAdmin", model);
+            else
+                return View("PropertyListReadOnly", model);
+        }
+
+        private ViewResult RenderPropertyEditView(PropertyViewModel model)
+        {
+            int role = _userAccountResolver.GetCurrentUserRole();
+
+            if (role == (int)StaffType.IsSalesAdmin || role == (int)StaffType.IsSalesDepartmentAdmin)
+                return View("EditSalesAdmin", model);         
+            else
+                return View("Edit", model);
         }
     }
 }

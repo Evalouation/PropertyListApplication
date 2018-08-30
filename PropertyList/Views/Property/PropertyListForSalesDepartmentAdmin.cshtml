@@ -1,0 +1,104 @@
+﻿@using PropertyList.BusinessLogic.Constant
+@model IEnumerable<PropertyList.Models.PropertyViewModel>
+@{
+    ViewBag.Title = "Property";
+}
+<h2>Property List (SDA</h2>
+
+<div class="form-horizontal">
+    <br />
+    <div class="form-group">
+
+        <table class="table table-responsive" style="width:800px">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PropertyID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bedroom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Bathroom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ConfidentialNotes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PropertyID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bedroom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bathroom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConfidentialNotes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PropertyID }, new { @class = "btn btn-success" })
+                </td>
+
+                @if (item.Status == PropertyStatus.Withdrawn)
+                {
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.PropertyID }, new { @class = "btn btn-danger" })
+                        <input type="button" value="Delete *" onclick="DeleteProperty(@item.PropertyID);" />
+                    </td>
+                }
+            </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+<script>
+    function DeleteProperty(id) {
+        var apiurl = '/api/PropertyApi/Delete/' + id;
+
+        $.ajax({
+            url: apiurl,
+            type: 'DELETE',
+            contentType: "application/json",
+            success: function (data, textStatus, xhr) {
+                console.log('Delete property succesfully');
+                console.log(data);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log('Error in Operation');
+            }
+
+
+        });
+
+        //success: function (result) {
+        //    $('#divCandidates').empty();
+        //    $('<li>' + result.Name + ', ' + result.Id + ', ' + result.Age + ', ' + result.Email + '</li>').appendTo('#divCandidates');
+        //},
+        //error: function (jqXHR, exception) {
+        //    $('#divCandidates').empty();
+        //    alert('Nothing');
+        //}
+    }
+</script>
+

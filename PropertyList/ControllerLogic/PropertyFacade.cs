@@ -37,5 +37,10 @@ namespace PropertyList.ControllerLogic
         {
             return _PropertyProvider.UpdateProperty(property);
         }
+
+        public bool DeleteProperty(int id)
+        {
+            return _PropertyProvider.DeleteProperty(id);
+        }
     }
 }

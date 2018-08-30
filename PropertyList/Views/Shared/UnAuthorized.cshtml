@@ -1,0 +1,11 @@
+﻿@{
+    Layout = "_layout.cshtml";
+    ViewBag.Title = "Access Denied";
+}
+
+<div class="jumbotron alert alert-warning">
+    <h2>Access Denied</h2>
+    <p class="lead">The account doesn't have permission to access this conetnt.</p>
+    <br />
+    <p><a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to homepage &raquo;</a></p>
+</div>

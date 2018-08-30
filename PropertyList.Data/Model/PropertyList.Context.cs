@@ -31,11 +31,6 @@ namespace PropertyList.Data.Model
         public virtual DbSet<utStaff> utStaffs { get; set; }
         public virtual DbSet<utStaffRole> utStaffRoles { get; set; }
     
-        public virtual ObjectResult<usp_SelectAllProperties_Result> usp_SelectAllProperties()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_SelectAllProperties_Result>("usp_SelectAllProperties");
-        }
-    
         public virtual int usp_InsertSingleStaff(string firstName, string lastName, string email, string password, Nullable<int> role, Nullable<System.DateTime> createdDate, Nullable<System.DateTime> updatedDate)
         {
             var firstNameParameter = firstName != null ?
@@ -176,6 +171,25 @@ namespace PropertyList.Data.Model
                 new ObjectParameter("updatedDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_UpdateProperty", propertyIDParameter, locationParameter, bedroomParameter, bathroomParameter, confidentialNotesParameter, statusParameter, isDeletedParameter, updatedDateParameter);
+        }
+    
+        public virtual ObjectResult<usp_GetAllProperties_Result> usp_GetAllProperties()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllProperties_Result>("usp_GetAllProperties");
+        }
+    
+        public virtual ObjectResult<usp_GetAllRoles_Result> usp_GetAllRoles()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetAllRoles_Result>("usp_GetAllRoles");
+        }
+    
+        public virtual int usp_DeleteProperty(Nullable<int> propertyID)
+        {
+            var propertyIDParameter = propertyID.HasValue ?
+                new ObjectParameter("propertyID", propertyID) :
+                new ObjectParameter("propertyID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProperty", propertyIDParameter);
         }
     }
 }
