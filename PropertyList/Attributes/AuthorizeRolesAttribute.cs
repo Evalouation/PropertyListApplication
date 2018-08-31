@@ -51,8 +51,8 @@ namespace PropertyList.Attributes
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new ViewResult { ViewName = "UnAuthorized" };
-            //filterContext.Result = new HttpStatusCodeResult(403);
+            //filterContext.Result = new ViewResult { ViewName = "UnAuthorized" };
+            filterContext.Result = new HttpStatusCodeResult(403);
         }
 
         private bool IsUserAuthorized(UserDtoModel user)
