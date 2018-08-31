@@ -6,10 +6,7 @@ namespace PropertyList.BusinessLogic.Providers
     public interface IStaffProvider
     {
         UserDtoModel ValidateStaffAccount(LoginDtoModel account);
-
-        IEnumerable<StaffDtoModel> GetAll();
-
-        //ArticleDetailModel GetArticleDetail(int id);
+        StaffDtoModel GetByEmail(string email);
         StaffDtoModel CreateStaff(StaffDtoModel model);
     }
 }

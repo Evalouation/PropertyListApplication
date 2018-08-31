@@ -20,11 +20,6 @@ namespace PropertyList.BusinessLogic.Providers
         }
         #endregion
 
-        //public bool IsUserInRole(string username, string roleName)
-        //{
-
-        //}
-
         public IEnumerable<RoleDtoModel> GetAll()
         {
             return _uow.GetDB().usp_GetAllRoles().Select(r => new RoleDtoModel()

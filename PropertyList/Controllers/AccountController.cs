@@ -58,10 +58,14 @@ namespace PropertyList.Controllers
                     );
 
                     string enTicket = FormsAuthentication.Encrypt(authTicket);
-                    HttpCookie faCookie = new HttpCookie("CookieA", enTicket);
-                    Response.Cookies.Add(faCookie);
+                    HttpCookie enCookie = new HttpCookie("CookieA", enTicket);
+                    Response.Cookies.Add(enCookie);
 
-                    Session["Username"] = result.FirstName;
+                    HttpCookie userCookie =  new HttpCookie("Username");
+                    userCookie.Value = result.FirstName;
+                    userCookie.Expires = DateTime.Now.AddHours(1);
+                    Response.Cookies.Add(userCookie);
+
                     return RedirectToAction("Index", "Property");
                 }
                 else
@@ -76,9 +80,9 @@ namespace PropertyList.Controllers
         //GET: Account/Logout
         public ActionResult Logout()
         {
-            Session["Username"] = null;
             FormsAuthentication.SignOut();
-            CleanCookie();
+            CleanCookie("CookieA");
+            CleanCookie("Username");
             return RedirectToAction("Index", "Home");
         }
 
@@ -87,7 +91,7 @@ namespace PropertyList.Controllers
         [HttpGet]
         public ActionResult CreateStaff()
         {
-            return View();
+            return View("CreateStaff");
         }
 
         // POST: Account/CreateStaff
@@ -119,10 +123,10 @@ namespace PropertyList.Controllers
         }
 
 
-        private void CleanCookie()
+        private void CleanCookie(string cookieName)
         {
-            HttpCookie currentUserCookie = HttpContext.Request.Cookies["CookieA"];
-            HttpContext.Response.Cookies.Remove("CookieA");
+            HttpCookie currentUserCookie = HttpContext.Request.Cookies[cookieName];
+            HttpContext.Response.Cookies.Remove(cookieName);
             currentUserCookie.Expires = DateTime.Now.AddDays(-10);
             currentUserCookie.Value = null;
             HttpContext.Response.SetCookie(currentUserCookie);

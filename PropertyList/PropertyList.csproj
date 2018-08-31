@@ -241,7 +241,6 @@
     <Content Include="Views\Partials\_Login.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Property\Create.cshtml" />
-    <Content Include="Views\Property\Index.cshtml" />
     <Content Include="Views\Property\Edit.cshtml" />
     <Content Include="Views\Shared\UnAuthorized.cshtml" />
     <Content Include="Views\Account\CreateStaff.cshtml" />

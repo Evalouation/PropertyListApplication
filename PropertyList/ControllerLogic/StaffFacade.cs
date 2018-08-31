@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using PropertyList.BusinessLogic.Model;
 using PropertyList.BusinessLogic.Providers;
 
@@ -16,19 +15,6 @@ namespace PropertyList.ControllerLogic
         public StaffFacade(IStaffProvider staffProvider)
         {
             _staffProvider = staffProvider;
-        }
-
-        public IEnumerable<StaffDtoModel> GetStaffs()
-        {
-            try
-            {
-                return _staffProvider.GetAll();
-            }
-            catch (Exception ex)
-            {
-                ex.ToString();
-                return null;
-            }
         }
 
         public StaffDtoModel AddStaff(StaffDtoModel staff)

@@ -21,23 +21,9 @@ namespace PropertyList.BusinessLogic.Providers
         }
         #endregion
 
-        public IEnumerable<StaffDtoModel> GetAll()
-        {
-            List<StaffDtoModel> staffs = _uow.GetDB().utStaffs.Select(x => new StaffDtoModel() {
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                Password = x.Password,
-                Role = x.RoleID
-            }).ToList();
-
-            return staffs;
-        }
-
         public StaffDtoModel CreateStaff(StaffDtoModel model)
         {
-            //todo
-            int test = _uow.GetDB().usp_InsertSingleStaff(model.FirstName, model.LastName, model.Email, model.Password,
+            _uow.GetDB().usp_InsertSingleStaff(model.FirstName, model.LastName, model.Email, model.Password,
                 model.Role, DateTime.Now.ToLocalTime(), DateTime.Now.ToLocalTime());
             return model;
         }
@@ -45,18 +31,36 @@ namespace PropertyList.BusinessLogic.Providers
         public UserDtoModel ValidateStaffAccount(LoginDtoModel account)
         {
             UserDtoModel result = null;
-            var user = _uow.GetDB().usp_CheckStaffAccount(account.Email, account.Password).FirstOrDefault();
-            if (user != null)
+            var queryResult = _uow.GetDB().usp_CheckStaffAccount(account.Email, account.Password);
+            if (queryResult != null)
             {
+                var user = queryResult.FirstOrDefault();
                 result = new UserDtoModel()
                 {
-                     StaffID = user.StaffID,
-                     FirstName = user.FirstName,
-                     RoleID = user.RoleID
+                    StaffID = user.StaffID,
+                    FirstName = user.FirstName,
+                    RoleID = user.RoleID
                 };
-
             }
             return result;
+        }
+
+        public StaffDtoModel GetByEmail(string email)
+        {
+            var queryResult = _uow.GetDB().usp_GetStaffByEmail(email);
+            if (queryResult != null)
+            {
+                var s = queryResult.FirstOrDefault();
+                return new StaffDtoModel
+                {
+                    StaffID = s.StaffID,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    Email = s.Email,
+                    Role = s.RoleID
+                };
+            }
+            return null;
         }
     }
 }

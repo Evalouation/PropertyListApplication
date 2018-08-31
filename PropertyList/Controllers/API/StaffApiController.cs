@@ -22,14 +22,6 @@ namespace PropertyList.Controllers.API
             _staffFacade = staffFacade;
         }
 
-
-        // GET: api/Staff/GetAll
-        public IHttpActionResult GetAll()
-        {
-            var result = _staffFacade.GetStaffs();
-            return Ok(result);
-        }
-
         // GET: api/Staff/5
         public IHttpActionResult Get(int id)
         {

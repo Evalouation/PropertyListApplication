@@ -44,7 +44,7 @@ namespace PropertyList.Controllers
                     var propertyResponse = response.Content.ReadAsStringAsync().Result;
                     result = JsonConvert.DeserializeObject<List<PropertyViewModel>>(propertyResponse);
                 }
-                return View(result);
+                return View("Index", result);
             }
         }
 

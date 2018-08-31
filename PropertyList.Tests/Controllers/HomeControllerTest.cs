@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PropertyList;
+﻿using Moq;
+using NUnit.Framework;
 using PropertyList.Controllers;
+using PropertyList.Helper;
+using System.Web.Mvc;
 
 namespace PropertyList.Tests.Controllers
 {
-    [TestClass]
+    [TestFixture]
     public class HomeControllerTest
     {
-        [TestMethod]
-        public void Index()
+        [Test]
+        public void VerifyIndexActionReturnsIndexView()
         {
-            // Arrange
-            HomeController controller = new HomeController();
-
-            // Act
-            //ViewResult result = controller.Index() as ViewResult;
-
-            // Assert
-            //Assert.IsNotNull(result);
+            var mockApplicationUriResolver = new Mock<IApplicationUriResolver>();
+            mockApplicationUriResolver.Setup(x => x.GetBaseUrl()).Returns("http://localhost");
+            var controller = new HomeController(mockApplicationUriResolver.Object);
+            var resultTask = controller.Index();
+            resultTask.Wait();
+            var viewResult = resultTask.Result as ViewResult;
+            Assert.IsNotNull(viewResult);
+            Assert.AreEqual("Index", viewResult.ViewName);
         }
 
-        [TestMethod]
+        [Test]
         public void About()
         {
             // Arrange
@@ -38,7 +35,7 @@ namespace PropertyList.Tests.Controllers
             Assert.AreEqual("Your application description page.", result.ViewBag.Message);
         }
 
-        [TestMethod]
+        [Test]
         public void Contact()
         {
             // Arrange

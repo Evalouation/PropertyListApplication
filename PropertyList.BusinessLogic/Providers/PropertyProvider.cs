@@ -38,16 +38,22 @@ namespace PropertyList.BusinessLogic.Providers
 
         public PropertyDtoModel GetById(int id)
         {
-            var p = _uow.GetDB().usp_GetPropertyById(id).FirstOrDefault();
-            return  p != null ? new PropertyDtoModel {
-                PropertyID = id,
-                Location = p.Location,
-                Bedroom = p.Bedroom.HasValue ? p.Bedroom.Value : 0,
-                Bathroom = p.Bathroom.HasValue ? p.Bathroom.Value : 0,
-                ConfidentialNotes = p.ConfidentialNotes,
-                Status = p.Status
-            } : null;
-           
+            var queryResult = _uow.GetDB().usp_GetPropertyById(id);
+
+            if (queryResult != null && queryResult.FirstOrDefault() != null)
+            {
+                var p = queryResult.FirstOrDefault();
+                return new PropertyDtoModel
+                {
+                    PropertyID = p.PropertyID,
+                    Location = p.Location,
+                    Bedroom = p.Bedroom.HasValue ? p.Bedroom.Value : 0,
+                    Bathroom = p.Bathroom.HasValue ? p.Bathroom.Value : 0,
+                    ConfidentialNotes = p.ConfidentialNotes,
+                    Status = p.Status
+                };
+            }
+            return null;
         }
 
         public PropertyDtoModel CreateProperty(PropertyDtoModel model)

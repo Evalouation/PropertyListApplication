@@ -59,7 +59,7 @@ namespace PropertyList.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Property/Create

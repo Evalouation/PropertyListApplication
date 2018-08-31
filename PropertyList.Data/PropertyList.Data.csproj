@@ -76,6 +76,9 @@
     <Compile Include="Model\usp_GetPropertyById_Result.cs">
       <DependentUpon>PropertyList.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\usp_GetStaffByEmail_Result.cs">
+      <DependentUpon>PropertyList.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\utProperty.cs">
       <DependentUpon>PropertyList.tt</DependentUpon>
     </Compile>

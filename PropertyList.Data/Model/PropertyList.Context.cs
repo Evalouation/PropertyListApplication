@@ -191,5 +191,14 @@ namespace PropertyList.Data.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProperty", propertyIDParameter);
         }
+    
+        public virtual ObjectResult<usp_GetStaffByEmail_Result> usp_GetStaffByEmail(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_GetStaffByEmail_Result>("usp_GetStaffByEmail", emailParameter);
+        }
     }
 }

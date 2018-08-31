@@ -63,6 +63,9 @@
         <Function Name="usp_GetPropertyById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="propertyId" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_GetStaffByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="usp_InsertSingleProperty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="location" Type="nvarchar" Mode="In" />
           <Parameter Name="bedroom" Type="int" Mode="In" />
@@ -158,6 +161,9 @@
           <FunctionImport Name="usp_DeleteProperty">
           <Parameter Name="propertyID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="usp_GetStaffByEmail" ReturnType="Collection(PropertyListingDataModel.usp_GetStaffByEmail_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="utProperty">
           <Key>
@@ -237,6 +243,16 @@
         <ComplexType Name="usp_GetAllRoles_Result">
           <Property Type="Int32" Name="RoleID" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="usp_GetStaffByEmail_Result">
+          <Property Type="Int32" Name="StaffID" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="RoleID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="UpdatedDate" Nullable="false" Precision="23" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -332,6 +348,20 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_DeleteProperty" FunctionName="PropertyListingDataModel.Store.usp_DeleteProperty" />
+          <FunctionImportMapping FunctionImportName="usp_GetStaffByEmail" FunctionName="PropertyListingDataModel.Store.usp_GetStaffByEmail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="PropertyListingDataModel.usp_GetStaffByEmail_Result">
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

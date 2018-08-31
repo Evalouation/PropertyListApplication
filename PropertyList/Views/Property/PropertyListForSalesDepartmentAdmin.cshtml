@@ -61,8 +61,7 @@
                 @if (item.Status == PropertyStatus.Withdrawn)
                 {
                 <td>
-                    @*@Html.ActionLink("Delete", "Delete", new { id = item.PropertyID }, new { @class = "btn btn-danger" })*@
-                    <input type="button" value="Delete *" class="btn btn-danger" onclick="DeleteProperty(@item.PropertyID);" />
+                    <input type="button" value="Delete" class="btn btn-danger" onclick="DeleteProperty(@item.PropertyID);" />
                 </td>
                 }
             </tr>
