@@ -185,6 +185,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\PropertyApiController.cs" />
     <Compile Include="Controllers\API\StaffApiController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Global.asax.cs">
@@ -249,6 +250,7 @@
     <Content Include="Views\Property\PropertyListForSalesAdmin.cshtml" />
     <Content Include="Views\Property\PropertyListForSalesDepartmentAdmin.cshtml" />
     <Content Include="Views\Property\EditSalesAdmin.cshtml" />
+    <Content Include="Views\Error\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

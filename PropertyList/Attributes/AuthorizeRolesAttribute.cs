@@ -2,13 +2,12 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using System.Web.Security;
 using System.Collections.Generic;
 using PropertyList.Helper;
 using PropertyList.BusinessLogic.Constant;
 using PropertyList.BusinessLogic.Model;
 using PropertyList.BusinessLogic.Providers;
+using System.Net.Http;
 
 namespace PropertyList.Attributes
 {
@@ -53,6 +52,7 @@ namespace PropertyList.Attributes
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             filterContext.Result = new ViewResult { ViewName = "UnAuthorized" };
+            //filterContext.Result = new HttpStatusCodeResult(403);
         }
 
         private bool IsUserAuthorized(UserDtoModel user)

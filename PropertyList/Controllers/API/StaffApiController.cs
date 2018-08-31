@@ -1,11 +1,6 @@
-﻿using System;
-using System.Web;
-using System.Web.Http;
-using System.Web.Security;
-using Newtonsoft.Json;
+﻿using System.Web.Http;
 using PropertyList.BusinessLogic.Model;
 using PropertyList.ControllerLogic;
-using PropertyList.Models;
 
 namespace PropertyList.Controllers.API
 {
@@ -22,12 +17,6 @@ namespace PropertyList.Controllers.API
             _staffFacade = staffFacade;
         }
 
-        // GET: api/Staff/5
-        public IHttpActionResult Get(int id)
-        {
-            return Ok("value");
-        }
-
         // POST: api/Staff/Post
         [HttpPost]
         public IHttpActionResult Post(StaffDtoModel staff)
@@ -42,23 +31,10 @@ namespace PropertyList.Controllers.API
         {
             UserDtoModel user = _staffFacade.ValidateAccount(account);
 
-            if (user != null)
-            { 
-                
+            if (user != null)           
                 return Ok(user);
-            }
             else
                 return Unauthorized();
         }
-
-        //// PUT: api/Staff/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/Staff/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }
