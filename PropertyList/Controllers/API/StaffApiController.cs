@@ -33,8 +33,8 @@ namespace PropertyList.Controllers.API
 
             if (user != null)           
                 return Ok(user);
-            else
-                return Unauthorized();
+            
+            return Unauthorized();
         }
     }
 }

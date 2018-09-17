@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -7,6 +8,9 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PropertyList.Attributes;
+using PropertyList.BusinessLogic.Constant;
+using PropertyList.BusinessLogic.Model;
+using PropertyList.BusinessLogic.Providers;
 using PropertyList.Helper;
 using PropertyList.Models;
 
@@ -15,37 +19,55 @@ namespace PropertyList.Controllers
     public class HomeController : Controller
     {
         private readonly IApplicationUriResolver _applicationUriResolver;
+        private readonly IPropertyProvider _propertyProvider;
 
         #region injection
-        public HomeController() : this(new ApplicationUriResolver())
+        public HomeController(IPropertyProvider propertyProvider) : this(new ApplicationUriResolver(), propertyProvider)
         {
         }
 
-        public HomeController(IApplicationUriResolver applicationUriResolver)
+        public HomeController(IApplicationUriResolver applicationUriResolver, IPropertyProvider propertyProvider)
         {
             _applicationUriResolver = applicationUriResolver;
+            _propertyProvider = propertyProvider;
         }
         #endregion
 
         public async Task<ActionResult> Index()
         {
-            List<PropertyViewModel> result = new List<PropertyViewModel>();
+            // Again, don't use API calls for code in the same application. I'd shortened the code below
+            List<PropertyDtoModel> result = _propertyProvider.GetAll()?.ToList(); // var is OK to use when the type is obvious
 
-            using (var client = new HttpClient())
+            // Would normally create a mapping class for this
+            List<PropertyViewModel> properties = result.Select(s => new PropertyViewModel()
             {
-                client.BaseAddress = new Uri(_applicationUriResolver.GetBaseUrl());
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                Bathroom = s.Bathroom,
+                Bedroom = s.Bedroom,
+                ConfidentialNotes = s.ConfidentialNotes,
+                Location = s.Location,
+                PropertyID = s.PropertyID,
+                Status = (PropertyStatus)s.Status
+            }).ToList();
 
-                HttpResponseMessage response = await client.GetAsync("api/PropertyApi/GetAll");
+            return View("Index", properties);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    var propertyResponse = response.Content.ReadAsStringAsync().Result;
-                    result = JsonConvert.DeserializeObject<List<PropertyViewModel>>(propertyResponse);
-                }
-                return View("Index", result);
-            }
+            //List<PropertyViewModel> result = new List<PropertyViewModel>();
+
+            //using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(_applicationUriResolver.GetBaseUrl());
+            //    client.DefaultRequestHeaders.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            //    HttpResponseMessage response = await client.GetAsync("api/PropertyApi/GetAll");
+
+            //    if (response.IsSuccessStatusCode)
+            //    {
+            //        var propertyResponse = response.Content.ReadAsStringAsync().Result;
+            //        result = JsonConvert.DeserializeObject<List<PropertyViewModel>>(propertyResponse);
+            //    }
+            //    return View("Index", result);
+            //}
         }
 
         public ActionResult About()

@@ -46,6 +46,7 @@ namespace PropertyList.Controllers.API
         }
 
         // PUT: api/PropertyApi/Put
+        // I'd keep these roles names in a constant somewhere, they are prone to spellig mistakes.
         [AuthorizeRoles("IsSales", "IsSalesAdmin", "IsSalesDepartmentAdmin")]
         [HttpPut]
         public IHttpActionResult Put(PropertyDtoModel property)
